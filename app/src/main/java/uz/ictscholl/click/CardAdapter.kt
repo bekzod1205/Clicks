@@ -26,7 +26,7 @@ class CardAdapter(var cards: MutableList<Card>) : RecyclerView.Adapter<CardAdapt
 
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         val user = cards[position]
-        holder.card_type.setImageResource(user.card_type)
+        holder.card_type.setBackgroundResource(user.card_type)
         holder.name.text = user.username
         holder.card_number.text = user.card_number
         holder.data.text = user.card_data
