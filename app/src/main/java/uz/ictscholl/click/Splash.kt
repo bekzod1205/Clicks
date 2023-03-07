@@ -23,7 +23,7 @@ class Splash : AppCompatActivity() {
         val handler = Handler(Looper.getMainLooper())
         image.startAnimation(animation)
         handler.postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Regestration::class.java)
             startActivity(intent)
             finish()
         }, 1500)
