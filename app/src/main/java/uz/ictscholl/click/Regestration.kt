@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -70,9 +71,15 @@ class Regestration : AppCompatActivity() {
             loadLocate()
             if (phone.text.isNotEmpty() && name.text.isNotEmpty() && pin.text.isNotEmpty()) {
                 if (is_pin(pin.text.toString())) {
+                    var cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
+                    var edit = cache.edit()
+                    edit.putString("pin",pin.text.toString()).apply()
+
+
                     val intent = Intent(this, Entrance::class.java)
                     startActivity(intent)
-                    intent.putExtra("til", isok)
+                    if (isok) intent.putExtra("til", "uz")
+                    else intent.putExtra("til", "ru")
                     finish()
                 } else {
                     if (isok) {

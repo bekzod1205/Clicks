@@ -1,11 +1,15 @@
 package uz.ictscholl.click
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 
 class Entrance : AppCompatActivity(), View.OnClickListener {
@@ -19,11 +23,14 @@ class Entrance : AppCompatActivity(), View.OnClickListener {
     private lateinit var eight: Button
     private lateinit var nine: Button
     private lateinit var zero: Button
-    private lateinit var circle_1: CardView
-    private lateinit var circle_2: CardView
-    private lateinit var circle_3: CardView
-    private lateinit var circle_4: CardView
-    private lateinit var circle_5: CardView
+    var str = ""
+    var n = 0
+    var list = mutableListOf<ImageView>()
+    private lateinit var circle_1: ImageView
+    private lateinit var circle_2: ImageView
+    private lateinit var circle_3: ImageView
+    private lateinit var circle_4: ImageView
+    private lateinit var circle_5: ImageView
     private lateinit var backspace: ImageButton
 
     @SuppressLint("MissingInflatedId")
@@ -46,19 +53,42 @@ class Entrance : AppCompatActivity(), View.OnClickListener {
         circle_4 = findViewById(R.id.circle_4)
         circle_5 = findViewById(R.id.circle_5)
         backspace = findViewById(R.id.backspace)
-
-    }
-
-    fun change_back(str: String) {
-        for (i in 1..5) {
-
-        }
+        one.setOnClickListener(this)
+        two.setOnClickListener(this)
+        three.setOnClickListener(this)
+        four.setOnClickListener(this)
+        five.setOnClickListener(this)
+        six.setOnClickListener(this)
+        seven.setOnClickListener(this)
+        eight.setOnClickListener(this)
+        nine.setOnClickListener(this)
+        zero.setOnClickListener(this)
+        list.add(circle_1)
+        list.add(circle_2)
+        list.add(circle_3)
+        list.add(circle_4)
+        list.add(circle_5)
     }
 
     override fun onClick(v: View?) {
         var btn = findViewById<Button>(v!!.id)
-        var str = ""
+        list[n].setImageResource(R.drawable.circle)
+        n++
         str += btn.text
-        change_back(str)
+        var cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
+        var st = cache.getString("pin", "")
+        if (str.length == 4) {
+            if (st == str) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+            }
+            list.forEach {
+                it.setBackgroundResource(R.drawable.circle)
+
+            }
+            n = 0
+        }
     }
 }
