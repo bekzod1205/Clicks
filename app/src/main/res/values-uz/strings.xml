@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Registration">Ro\'yxatdan o\'tish</string>
+    <string name="next">Keyingi</string>
+    <string name="Phone">Telefon raqami</string>
+    <string name="name">Ism</string>
+    <string name="pin">Click pin kod</string>
+</resources>

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Click</string>
+    <string name="app_name" translatable="false">Click</string>
+    <string name="Registration">Registration</string>
+    <string name="next">Next</string>
+    <string name="Phone">phone</string>
+    <string name="name">name</string>
+    <string name="pin">pin</string>
 </resources>

@@ -1,21 +1,23 @@
 package uz.ictscholl.click
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.google.android.material.textfield.TextInputLayout
+import java.util.Locale
 
 class Regestration : AppCompatActivity() {
     private lateinit var uz: Button
     private lateinit var rus: Button
-    private lateinit var prev: Button
     private lateinit var next: Button
     private lateinit var tv: TextView
     private lateinit var phone: EditText
@@ -30,10 +32,10 @@ class Regestration : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var isok = true
+        loadLocate()
         setContentView(R.layout.activity_regestration)
         uz = findViewById(R.id.uz)
         rus = findViewById(R.id.rus)
-        prev = findViewById(R.id.previous)
         next = findViewById(R.id.next)
         tv = findViewById(R.id.tv_1)
         phone = findViewById(R.id.phone)
@@ -44,48 +46,28 @@ class Regestration : AppCompatActivity() {
         phone_l = findViewById(R.id.phone_l)
         card = findViewById(R.id.card)
 
+
+
         uz.setOnClickListener {
+            loadLocate()
             uz.visibility = View.INVISIBLE
             rus.visibility = View.INVISIBLE
             card.visibility = View.VISIBLE
-            prev.visibility = View.VISIBLE
             next.visibility = View.VISIBLE
-            prev.text = "Oldingi"
-            next.text = "Keyingi"
-            tv.text = "Ro'yxatdan o'tish"
-            phone.hint = "Telefon raqami"
-            name.hint = "Ism"
-            pin.hint = "Click pin kod"
+            setLocate("uz")
             isok = true
         }
         rus.setOnClickListener {
+            loadLocate()
             uz.visibility = View.INVISIBLE
             rus.visibility = View.INVISIBLE
             card.visibility = View.VISIBLE
-            prev.visibility = View.VISIBLE
             next.visibility = View.VISIBLE
-            prev.text = "Предыдущий"
-            next.text = "Следующий"
-            tv.text = "Зарегистрироваться"
-            phone.hint = "Номер телефона"
-            name.hint = "Имя"
-            pin.hint = "Пин-код"
+            setLocate("ru")
             isok = false
         }
-        prev.setOnClickListener {
-            uz.visibility = View.VISIBLE
-            rus.visibility = View.VISIBLE
-            card.visibility = View.INVISIBLE
-            prev.visibility = View.INVISIBLE
-            next.visibility = View.INVISIBLE
-            phone.text.clear()
-            name.text.clear()
-            pin.text.clear()
-            pin_l.helperText = ""
-            name_l.helperText = ""
-            phone_l.helperText = ""
-        }
         next.setOnClickListener {
+            loadLocate()
             if (phone.text.isNotEmpty() && name.text.isNotEmpty() && pin.text.isNotEmpty()) {
                 if (is_pin(pin.text.toString())) {
                     val intent = Intent(this, Entrance::class.java)
@@ -133,5 +115,30 @@ class Regestration : AppCompatActivity() {
         }
         if (count > 5) return false
         return true
+    }
+
+
+    private fun setLocate(Lang: String) {
+
+        val locale = Locale(Lang)
+
+        Locale.setDefault(locale)
+
+        val config = Configuration()
+
+        config.locale = locale
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+
+        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
+        editor.putString("My_Lang", Lang)
+        editor.apply()
+    }
+
+    private fun loadLocate() {
+        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
+        val language = sharedPreferences.getString("My_Lang", "")
+        if (language != null) {
+            setLocate(language)
+        }
     }
 }
