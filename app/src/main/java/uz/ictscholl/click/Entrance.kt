@@ -3,8 +3,10 @@ package uz.ictscholl.click
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -72,23 +74,25 @@ class Entrance : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         var btn = findViewById<Button>(v!!.id)
-        list[n].setImageResource(R.drawable.circle)
+        list[n].setBackgroundResource(R.drawable.baseline_circle_24)
         n++
         str += btn.text
-        var cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
-        var st = cache.getString("pin", "")
-        if (str.length == 4) {
-            if (st == str) {
+        val cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
+        val st = cache.getString("pin", "")
+        Log.d("tag", st.toString())
+        if (str.length == 5) {
+            if (st.toString() == str) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
             }
             list.forEach {
-                it.setBackgroundResource(R.drawable.circle)
-
+                it.setBackgroundResource(R.drawable.outline_circle_24)
             }
             n = 0
+            str = ""
         }
     }
 }
