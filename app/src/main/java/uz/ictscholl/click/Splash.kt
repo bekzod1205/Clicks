@@ -1,8 +1,10 @@
 package uz.ictscholl.click
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +13,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import java.util.*
 
 class Splash : AppCompatActivity() {
     private lateinit var image: ImageView
@@ -29,7 +32,7 @@ class Splash : AppCompatActivity() {
             if (str == "") {
                 val intent = Intent(this, Regestration::class.java)
                 startActivity(intent)
-            }else{
+            } else {
                 val intent = Intent(this, Entrance::class.java)
                 startActivity(intent)
             }

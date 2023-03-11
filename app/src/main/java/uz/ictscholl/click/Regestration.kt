@@ -74,11 +74,9 @@ class Regestration : AppCompatActivity() {
                     val cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
                     val edit = cache.edit()
                     edit.putString("pin", pin.text.toString()).apply()
-                    val cache_1 = getSharedPreferences("Info_2", Context.MODE_PRIVATE)
+                    val cache_1 = getSharedPreferences("Name", Context.MODE_PRIVATE)
                     val edit_1 = cache_1.edit()
-                    if (isok) edit_1.putString("til", "uz").apply()
-                    else edit_1.putString("til", "ru").apply()
-
+                    edit_1.putString("name", name.text.toString()).apply()
                     val intent = Intent(this, Entrance::class.java)
                     startActivity(intent)
 
