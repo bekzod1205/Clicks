@@ -5,4 +5,5 @@
     <string name="Phone">Telefon raqami</string>
     <string name="name">Ism</string>
     <string name="pin">Click pin kod</string>
+    <string name="pin_enter">PIN kiriting</string>
 </resources>

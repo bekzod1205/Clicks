@@ -29,7 +29,7 @@ class Regestration : AppCompatActivity() {
     private lateinit var phone_l: TextInputLayout
     private lateinit var card: CardView
 
-    @SuppressLint("MissingInflatedId", "SetTextI18n")
+    @SuppressLint("MissingInflatedId", "SetTextI18n", "CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var isok = true
@@ -71,15 +71,17 @@ class Regestration : AppCompatActivity() {
             loadLocate()
             if (phone.text.isNotEmpty() && name.text.isNotEmpty() && pin.text.isNotEmpty()) {
                 if (is_pin(pin.text.toString())) {
-                    var cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
-                    var edit = cache.edit()
-                    edit.putString("pin",pin.text.toString()).apply()
-
+                    val cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
+                    val edit = cache.edit()
+                    edit.putString("pin", pin.text.toString()).apply()
+                    val cache_1 = getSharedPreferences("Info_2", Context.MODE_PRIVATE)
+                    val edit_1 = cache_1.edit()
+                    if (isok) edit_1.putString("til", "uz").apply()
+                    else edit_1.putString("til", "ru").apply()
 
                     val intent = Intent(this, Entrance::class.java)
                     startActivity(intent)
-                    if (isok) intent.putExtra("til", "uz")
-                    else intent.putExtra("til", "ru")
+
                     finish()
                 } else {
                     if (isok) {

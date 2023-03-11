@@ -1,8 +1,10 @@
 package uz.ictscholl.click
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import java.util.*
 
 class Entrance : AppCompatActivity(), View.OnClickListener {
     private lateinit var one: Button
@@ -38,6 +41,7 @@ class Entrance : AppCompatActivity(), View.OnClickListener {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadLocate()
         setContentView(R.layout.activity_entrance)
         one = findViewById(R.id.one)
         two = findViewById(R.id.two)
@@ -70,16 +74,31 @@ class Entrance : AppCompatActivity(), View.OnClickListener {
         list.add(circle_3)
         list.add(circle_4)
         list.add(circle_5)
+
+        val cache = getSharedPreferences("Info_1", Context.MODE_PRIVATE)
+        val str_1 = cache.getString("til", "")
+        Log.d("tag", str_1.toString())
+        if (str_1 != null) {
+            setLocate(str_1.toString())
+        }
+
+        backspace.setOnClickListener {
+            if (n > 0) {
+                str = str.dropLast(1)
+                list[n].setBackgroundResource(R.drawable.outline_circle_24)
+                n--
+            }
+        }
+
     }
 
     override fun onClick(v: View?) {
-        var btn = findViewById<Button>(v!!.id)
+        val btn = findViewById<Button>(v!!.id)
         list[n].setBackgroundResource(R.drawable.baseline_circle_24)
         n++
         str += btn.text
         val cache = getSharedPreferences("Info", Context.MODE_PRIVATE)
         val st = cache.getString("pin", "")
-        Log.d("tag", st.toString())
         if (str.length == 5) {
             if (st.toString() == str) {
                 val intent = Intent(this, MainActivity::class.java)
@@ -93,6 +112,30 @@ class Entrance : AppCompatActivity(), View.OnClickListener {
             }
             n = 0
             str = ""
+        }
+    }
+
+    private fun setLocate(Lang: String) {
+
+        val locale = Locale(Lang)
+
+        Locale.setDefault(locale)
+
+        val config = Configuration()
+
+        config.locale = locale
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+
+        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
+        editor.putString("My_Lang", Lang)
+        editor.apply()
+    }
+
+    private fun loadLocate() {
+        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
+        val language = sharedPreferences.getString("My_Lang", "")
+        if (language != null) {
+            setLocate(language)
         }
     }
 }
