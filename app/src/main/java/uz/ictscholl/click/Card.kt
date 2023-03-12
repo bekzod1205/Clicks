@@ -6,4 +6,4 @@ data class Card(
     var card_type: Int,
     var card_data: String,
     var color: Int
-)
+):java.io.Serializable
